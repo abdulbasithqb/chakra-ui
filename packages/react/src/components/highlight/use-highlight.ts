@@ -7,5 +7,11 @@ export interface UseHighlightProps extends HighlightOptions {}
 
 export function useHighlight(props: UseHighlightProps) {
   const { text, query } = props
-  return useMemo(() => highlightWords({ text, query }), [text, query])
+
+  const newQuery =
+    typeof query === "string"
+      ? query
+      : query.sort((a, b) => b.length - a.length)
+
+  return useMemo(() => highlightWords({ text, query: newQuery }), [text, query])
 }
